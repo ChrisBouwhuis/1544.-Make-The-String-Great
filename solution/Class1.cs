@@ -1,27 +1,17 @@
-﻿namespace solution
+﻿using System.Text;
+
+namespace solution
 {
     public class Solution
     {
         public string MakeGood(string s)
         {
-            Stack<char> stack = new Stack<char>();
-
-            foreach (char c in s)
-            {
-                if (stack.Count > 0 && Math.Abs(c - stack.Peek()) == 32)
-                {
-                    stack.Pop();
-                }
-                else
-                {
-                    stack.Push(c);
-                }
-            }
-
-            char[] resultChars = stack.ToArray();
-            Array.Reverse(resultChars);
-
-            return new string(resultChars);
+            var sb = new StringBuilder(s);
+            for (int i = 0; i < sb.Length - 1;)
+                if (sb[i] - 32 == sb[i + 1]) { sb.Remove(i, 2); i = 0; }
+                else if (sb[i] + 32 == sb[i + 1]) { sb.Remove(i, 2); i = 0; }
+                else i++;
+            return sb.ToString();
         }
     }
 }
