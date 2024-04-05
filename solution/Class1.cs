@@ -4,18 +4,24 @@
     {
         public string MakeGood(string s)
         {
-            for (int i = 0; i < s.Length - 1; i++)
+            Stack<char> stack = new Stack<char>();
+
+            foreach (char c in s)
             {
-                if (s[i] != s[i + 1])
+                if (stack.Count > 0 && Math.Abs(c - stack.Peek()) == 32)
                 {
-                    if (Char.ToLower(s[i]) == Char.ToLower(s[i + 1]))
-                    {
-                        s = s.Remove(i, 2);
-                        return MakeGood(s);
-                    }
+                    stack.Pop();
+                }
+                else
+                {
+                    stack.Push(c);
                 }
             }
-            return s;
+
+            char[] resultChars = stack.ToArray();
+            Array.Reverse(resultChars);
+
+            return new string(resultChars);
         }
     }
 }
